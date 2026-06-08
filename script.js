@@ -13,37 +13,64 @@ startMusic();
 }
 
 // ====================
-// เพลง
+// เพลง (แก้ไข: เพิ่มระบบเพิ่ม-ลดเสียง)
 // ====================
 
-let musicPlaying=false;
+// ⚠️ ให้เปลี่ยนคำว่า "music.mp3" เป็นชื่อไฟล์เพลงของคุณนะครับ
+const mySong = new Audio("music.mp3"); 
+mySong.loop = true; // ตั้งค่าให้เพลงเล่นวนซ้ำเรื่อยๆ
+mySong.volume = 0.5; // ตั้งค่าเสียงเริ่มต้นไว้ที่ 50% (ปรับได้ตั้งแต่ 0.0 ถึง 1.0)
+
+let musicPlaying = false;
 
 function startMusic(){
 
 if(musicPlaying) return;
 
-document.getElementById("ytPlayer").src=
-"https://www.youtube.com/embed/N9bashij_7c?autoplay=1&loop=1&playlist=N9bashij_7c";
+mySong.play().catch(error => {
+    console.log("Browser บล็อกการเล่นเสียงอัตโนมัติ ต้องคลิกหน้าจอก่อน:", error);
+});
 
-musicPlaying=true;
+musicPlaying = true;
 
 }
 
 function toggleMusic(){
 
-const player=
-document.getElementById("ytPlayer");
+if(!musicPlaying){
 
-if(player.src===""){
+mySong.play();
 
-startMusic();
+musicPlaying = true;
 
 }else{
 
-player.src="";
+mySong.pause();
 
-musicPlaying=false;
+musicPlaying = false;
 
+}
+
+}
+
+// ฟังก์ชันเพิ่มเสียง (+)
+function volumeUp(){
+
+if(mySong.volume < 1.0){
+    // เพิ่มทีละ 0.1 (หรือ 10%) และใช้ Math.min เพื่อไม่ให้เกิน 1.0
+    mySong.volume = Math.min(1.0, mySong.volume + 0.1);
+    console.log("ระดับเสียงปัจจุบัน: " + Math.round(mySong.volume * 100) + "%");
+}
+
+}
+
+// ฟังก์ชันลดเสียง (-)
+function volumeDown(){
+
+if(mySong.volume > 0.0){
+    // ลดทีละ 0.1 (หรือ 10%) และใช้ Math.max เพื่อไม่ให้ต่ำกว่า 0.0
+    mySong.volume = Math.max(0.0, mySong.volume - 0.1);
+    console.log("ระดับเสียงปัจจุบัน: " + Math.round(mySong.volume * 100) + "%");
 }
 
 }
@@ -268,7 +295,7 @@ const loveMessages=[
 
 "ต่อให้เวลาผ่านไปแค่ไหน เค้าก็ยังเลือกใบหม่อน ❤️",
 "ใบหม่อนคือคนสำคัญที่สุด 💖",
-"เค้าโชคดีมากที่มีใบหม่อน ❤️",
+"เค้าโชคดีมากนะคะที่มีใบหม่อน ❤️",
 "ทุกวันกับใบหม่อนมีค่าเสมอ 💕",
 "ขอบคุณที่เป็นความสุขของเค้า ❤️",
 "ใบหม่อนคือความรักที่ดีที่สุด 💖",
